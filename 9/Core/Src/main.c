@@ -343,7 +343,7 @@ int16_t UARTReadChar(UARTStucrture *uart)
 	return Result;
 
 }
-void UARTTxDumpBuffer(UARTStucrture *uart)
+void UARTTxDumpBuffer(UARTStucrture *uart)// check ข้อความว่ายาวเท่าไหร่
 {
 	static uint8_t MultiProcessBlocker = 0;
 
@@ -558,6 +558,20 @@ void DynamixelProtocal2(uint8_t *Memory, uint8_t MotorID, int16_t dataIn,
 			case 0x03://WRITE
 			{
 				//LAB
+				uint8_t temp[] = {0xff,0xff,0xfd,0x00,MotorID,0x04,0x00,0x55,0x00,0x00,0x00};
+				//ตั้งค่าID
+				temp[4] = MotorID;
+				//คำนวณ CRC
+				uint16_t crc_calc = update_crc(0, temp, 9);
+				temp[9] = crc_calc & 0xff;
+				temp[10] = (crc_calc >> 8) & 0xFF;
+				//ส่งข้อมูลไปที่ packet
+				UARTTxWrite(uart, temp, 11);
+
+
+				break;
+
+
 			}
 			default: //Unknown Inst
 			{
