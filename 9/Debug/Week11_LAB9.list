@@ -983,7 +983,7 @@ int16_t UARTReadChar(UARTStucrture *uart)
  8000882:	bd90      	pop	{r4, r7, pc}
 
 08000884 <UARTTxDumpBuffer>:
-void UARTTxDumpBuffer(UARTStucrture *uart)
+void UARTTxDumpBuffer(UARTStucrture *uart)// check ข้อความว่ายาวเท่าไหร่
 {
  8000884:	b580      	push	{r7, lr}
  8000886:	b084      	sub	sp, #16
