@@ -66,7 +66,7 @@ UARTStucrture UART2 =
 
 uint8_t MainMemory[255] =
 { 0 };
-
+uint16_t Pos=0;
 typedef enum
 {
 	DNMXP_idle,
@@ -567,6 +567,12 @@ void DynamixelProtocal2(uint8_t *Memory, uint8_t MotorID, int16_t dataIn,
 				temp[10] = (crc_calc >> 8) & 0xFF;
 				//ส่งข้อมูลไปที่ packet
 				UARTTxWrite(uart, temp, 11);
+
+				Pos = parameter[0]+(parameter[1]<<8);
+				for(int i=2; i<CollectedData; i++)
+				{
+					Memory[Pos+i-2]=parameter[i];
+				}
 
 
 				break;
